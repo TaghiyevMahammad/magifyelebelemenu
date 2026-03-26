@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magify Menu - Ele Bele PlayStation Club</title>
+    <title>Magify Menyu - Ele Bele PlayStation Klubu</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -479,18 +479,18 @@
 <body>
     <!-- HEADER -->
     <div class="header">
-        <h1>Magify Menu</h1>
-        <p>Ele Bele PlayStation Club Menu</p>
+        <h1>Magify Menyu</h1>
+        <p>Ele Bele PlayStation Klub Menyusu</p>
     </div>
 
     <!-- FILTER BUTTONS -->
     <div class="filter-section">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="drinks">Drinks</button>
-        <button class="filter-btn" data-filter="snacks">Snacks</button>
-        <button class="filter-btn" data-filter="food">Food</button>
-        <button class="filter-btn" data-filter="hookah">Hookah</button>
-        <button class="filter-btn" data-filter="service">Service</button>
+        <button class="filter-btn active" data-filter="all">Hamısı</button>
+        <button class="filter-btn" data-filter="drinks">İçkilər</button>
+        <button class="filter-btn" data-filter="snacks">Qəlyanaltılar</button>
+        <button class="filter-btn" data-filter="food">Yeməklər</button>
+        <button class="filter-btn" data-filter="hookah">Qəlyan</button>
+        <button class="filter-btn" data-filter="service">Xidmət</button>
     </div>
 
     <!-- MENU GRID -->
@@ -538,7 +538,14 @@
                 card.className = 'menu-card';
                 card.style.animationDelay = `${index * 0.05}s`;
 
-                const categoryLabel = item.category.charAt(0).toUpperCase() + item.category.slice(1);
+                const categoryMap = {
+                    drinks: 'İçkilər',
+                    snacks: 'Qəlyanaltılar',
+                    food: 'Yeməklər',
+                    hookah: 'Qəlyan',
+                    service: 'Xidmət'
+                };
+                const categoryLabel = categoryMap[item.category] || item.category;
 
                 card.innerHTML = `
                     <div class="card-header">
@@ -575,7 +582,7 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <p class="footer-text">All rights reserved. © Taghiyev Mahammad</p>
+        <p class="footer-text">Bütün hüquqlar qorunur. © Taghiyev Mahammad</p>
     </div>
 </body>
 </html>
