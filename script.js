@@ -1,30 +1,39 @@
 const basicMenuItems = [
-    { name: "Kola / Fanta / Pepsi / Sprite (1L)", price: "2.50₼" },
-    { name: "Kola (2L)", price: "4.00₼" },
-    { name: "Kola (0.5L)", price: "1.50₼" },
-    { name: "Natura", price: "3.50₼" },
-    { name: "Cappy", price: "3.00₼" },
-    { name: "Bizon (0.25L)", price: "1.20₼" },
-    { name: "Bizon (0.5L)", price: "2.00₼" },
-    { name: "Pivə", price: "1.50₼" },
-    { name: "Çay + pletka", price: "6.00₼" },
-    { name: "Çay + rulet", price: "5.00₼" },
-    { name: "Kapuçino", price: "1.50₼" },
-    { name: "Sadə çay", price: "2.00₼" },
-    { name: "Maccafe", price: "1.00₼" },
-    { name: "Çips Böyük", price: "4.50₼" },
-    { name: "Çips Orta", price: "2.50₼" },
-    { name: "Suxarik", price: "1.50₼" },
-    { name: "Tum", price: "2.00₼" },
-    { name: "Qəlyan", price: "10.00₼" },
-    { name: "Pendir", price: "3.00₼" },
-    { name: "Noxud", price: "2.00₼" },
-    { name: "Fri Orta", price: "3.00₼" },
-    { name: "Fri Böyük", price: "5.00₼" },
-    { name: "Tost", price: "2.00₼" },
-    { name: "Pletka", price: "4.00₼" },
-    { name: "Rulet", price: "3.00₼" },
-    { name: "Elave pult", price: "0.50₼" }
+    { name: "Kola / Fanta / Pepsi / Sprite (1L)", price: "2.50₼", category: "ickiler" },
+    { name: "Kola (2L)", price: "4.00₼", category: "ickiler" },
+    { name: "Kola (0.5L)", price: "1.50₼", category: "ickiler" },
+    { name: "Natura", price: "3.50₼", category: "ickiler" },
+    { name: "Cappy", price: "3.00₼", category: "ickiler" },
+    { name: "Bizon (0.25L)", price: "1.20₼", category: "ickiler" },
+    { name: "Bizon (0.5L)", price: "2.00₼", category: "ickiler" },
+    { name: "Pivə", price: "1.50₼", category: "ickiler" },
+    { name: "Çay + pletka", price: "6.00₼", category: "ickiler" },
+    { name: "Çay + rulet", price: "5.00₼", category: "ickiler" },
+    { name: "Kapuçino", price: "1.50₼", category: "ickiler" },
+    { name: "Sadə çay", price: "2.00₼", category: "ickiler" },
+    { name: "Maccafe", price: "1.00₼", category: "ickiler" },
+    { name: "Çips Böyük", price: "4.50₼", category: "qelyanaltilar" },
+    { name: "Çips Orta", price: "2.50₼", category: "qelyanaltilar" },
+    { name: "Suxarik", price: "1.50₼", category: "qelyanaltilar" },
+    { name: "Tum", price: "2.00₼", category: "qelyanaltilar" },
+    { name: "Pendir", price: "3.00₼", category: "qelyanaltilar" },
+    { name: "Noxud", price: "2.00₼", category: "qelyanaltilar" },
+    { name: "Qəlyan", price: "10.00₼", category: "diger" },
+    { name: "Fri Orta", price: "3.00₼", category: "yemekler" },
+    { name: "Fri Böyük", price: "5.00₼", category: "yemekler" },
+    { name: "Tost", price: "2.00₼", category: "yemekler" },
+    { name: "Pletka", price: "4.00₼", category: "diger" },
+    { name: "Rulet", price: "3.00₼", category: "diger" },
+    { name: "Əlavə pult", price: "0.50₼", category: "xidmet" }
+];
+
+const menuCategoryMeta = [
+    { key: "ickiler", title: "İçkilər" },
+    { key: "qelyanaltilar", title: "Qəlyanaltılar" },
+    { key: "yemekler", title: "Yeməklər" },
+    { key: "diger", title: "Digər" },
+    { key: "xidmet", title: "Xidmət" }
+    
 ];
 
 const sets = [
@@ -200,12 +209,34 @@ function createSetCard(setData, isOffer = false) {
 }
 
 function renderBasicMenu() {
-    const menuList = document.getElementById("menuList");
-    basicMenuItems.forEach((item) => {
-        const li = document.createElement("li");
-        li.className = "menu-item";
-        li.innerHTML = `<span>${item.name}</span><span class="menu-price">${item.price}</span>`;
-        menuList.appendChild(li);
+    const menuCategories = document.getElementById("menuCategories");
+
+    menuCategoryMeta.forEach((category) => {
+        const categoryItems = basicMenuItems.filter((item) => item.category === category.key);
+        if (!categoryItems.length) {
+            return;
+        }
+
+        const categoryWrap = document.createElement("div");
+        categoryWrap.className = "menu-category";
+        categoryWrap.id = category.key;
+
+        const heading = document.createElement("h3");
+        heading.textContent = category.title;
+
+        const list = document.createElement("ul");
+        list.className = "menu-list";
+
+        categoryItems.forEach((item) => {
+            const li = document.createElement("li");
+            li.className = "menu-item";
+            li.innerHTML = `<span>${item.name}</span><span class="menu-price">${item.price}</span>`;
+            list.appendChild(li);
+        });
+
+        categoryWrap.appendChild(heading);
+        categoryWrap.appendChild(list);
+        menuCategories.appendChild(categoryWrap);
     });
 }
 

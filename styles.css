@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     --bg-main: #0b0b0b;
     --bg-card: #151515;
@@ -83,12 +87,59 @@ body {
     max-width: 620px;
 }
 
+.quick-nav {
+    position: sticky;
+    top: 0.6rem;
+    z-index: 10;
+    max-width: 1100px;
+    margin: 0 auto 1rem;
+    padding: 0.55rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    background: rgba(12, 12, 12, 0.78);
+    backdrop-filter: blur(10px);
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.quick-nav a {
+    flex: 0 0 auto;
+    text-decoration: none;
+    color: #e9e9e9;
+    border: 1px solid #3f3f3f;
+    border-radius: 999px;
+    padding: 0.32rem 0.72rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    transition: background 180ms ease, border-color 180ms ease;
+}
+
+.quick-nav a:hover {
+    background: #f2f2f2;
+    color: #080808;
+    border-color: #f2f2f2;
+}
+
 .page-wrap {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 1.15rem 3rem;
     display: grid;
     gap: 1.4rem;
+}
+
+#menu,
+#sets,
+#offers,
+#ickiler,
+#qelyanaltilar,
+#yemekler,
+#xidmet,
+#diger {
+    scroll-margin-top: 5.2rem;
 }
 
 .section-block {
@@ -129,10 +180,28 @@ body {
     gap: 0.55rem;
 }
 
+.menu-categories {
+    display: grid;
+    gap: 1rem;
+}
+
+.menu-category {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.menu-category h3 {
+    margin-bottom: 0.65rem;
+    font-size: 0.98rem;
+    color: #ffffff;
+}
+
 .menu-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     padding: 0.75rem 0.9rem;
     border: 1px solid var(--line);
@@ -143,6 +212,13 @@ body {
 
 .menu-item span:first-child {
     color: #efefef;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.menu-price {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .menu-item:hover {
@@ -198,6 +274,7 @@ body {
     font-size: 1rem;
     font-weight: 700;
     color: #f4f4f4;
+    overflow-wrap: anywhere;
 }
 
 .card-price {
@@ -209,6 +286,7 @@ body {
 .card-meta {
     color: #c3c3c3;
     font-size: 0.88rem;
+    overflow-wrap: anywhere;
 }
 
 .card-body {
@@ -281,6 +359,7 @@ body {
 .offer-prices p {
     font-size: 0.9rem;
     color: #c9c9c9;
+    overflow-wrap: anywhere;
 }
 
 .offer-prices strong {
@@ -312,6 +391,12 @@ body {
         padding-top: 2.8rem;
     }
 
+    .quick-nav {
+        margin: 0 1.15rem 0.9rem;
+        top: 0.35rem;
+        padding: 0.45rem;
+    }
+
     .section-block {
         padding: 1rem;
         border-radius: 18px;
@@ -338,12 +423,44 @@ body {
         font-size: 0.95rem;
     }
 
+    .menu-item {
+        gap: 0.65rem;
+        padding: 0.65rem 0.72rem;
+    }
+
+    .menu-item span {
+        font-size: 0.9rem;
+    }
+
     .offer-headline {
         flex-wrap: wrap;
     }
 
     .offer-badge {
         margin-left: auto;
+    }
+}
+
+@media (max-width: 390px) {
+    .hero {
+        padding: 2.25rem 0.9rem 1.4rem;
+    }
+
+    .page-wrap {
+        padding: 0 0.85rem 2.3rem;
+    }
+
+    .quick-nav {
+        margin: 0 0.85rem 0.75rem;
+    }
+
+    .quick-nav a {
+        font-size: 0.75rem;
+        padding: 0.28rem 0.58rem;
+    }
+
+    .section-head h2 {
+        font-size: 1.02rem;
     }
 }
 
