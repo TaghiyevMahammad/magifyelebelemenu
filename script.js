@@ -256,11 +256,13 @@ function renderOffers() {
 
 function initScrollSpy() {
     const navLinks = Array.from(document.querySelectorAll(".quick-nav a"));
+    const quickNav = document.querySelector(".quick-nav");
+
     if (!navLinks.length) {
         return;
     }
 
-    const sectionMap = new Map();
+    const tracked = [];
 
     navLinks.forEach((link) => {
         const targetId = link.getAttribute("href")?.replace("#", "");
@@ -270,47 +272,79 @@ function initScrollSpy() {
 
         const target = document.getElementById(targetId);
         if (target) {
-            sectionMap.set(target, link);
+            tracked.push({ link, target });
         }
     });
 
+    if (!tracked.length) {
+        return;
+    }
+
+    let activeHref = "";
+
     const setActive = (activeLink) => {
+        if (!activeLink) {
+            return;
+        }
+
+        const nextHref = activeLink.getAttribute("href") || "";
+        if (nextHref === activeHref) {
+            return;
+        }
+
+        activeHref = nextHref;
         navLinks.forEach((link) => link.classList.remove("active"));
-        if (activeLink) {
-            activeLink.classList.add("active");
-            activeLink.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+        activeLink.classList.add("active");
+
+        if (quickNav) {
+            activeLink.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
         }
     };
 
-    const observer = new IntersectionObserver(
-        (entries) => {
-            const visibleEntries = entries
-                .filter((entry) => entry.isIntersecting)
-                .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    const getTopOffset = () => {
+        const navHeight = quickNav ? quickNav.offsetHeight : 0;
+        return navHeight + 24;
+    };
 
-            if (!visibleEntries.length) {
-                return;
+    const updateActiveByScroll = () => {
+        const markerY = window.scrollY + getTopOffset();
+        let current = tracked[0];
+
+        tracked.forEach((item) => {
+            if (item.target.offsetTop <= markerY) {
+                current = item;
             }
+        });
 
-            const topEntry = visibleEntries[0];
-            const activeLink = sectionMap.get(topEntry.target);
-            setActive(activeLink);
-        },
-        {
-            root: null,
-            rootMargin: "-35% 0px -45% 0px",
-            threshold: [0.2, 0.4, 0.6]
+        setActive(current.link);
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+        if (ticking) {
+            return;
         }
-    );
 
-    sectionMap.forEach((_, sectionEl) => observer.observe(sectionEl));
+        ticking = true;
+        requestAnimationFrame(() => {
+            updateActiveByScroll();
+            ticking = false;
+        });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            setActive(link);
+        });
+    });
 
     const initialHash = window.location.hash;
     if (initialHash) {
         const initialLink = navLinks.find((link) => link.getAttribute("href") === initialHash);
-        setActive(initialLink || navLinks[0]);
-    } else {
-        setActive(navLinks[0]);
+        setActive(initialLink || tracked[0].link);
     }
 }
 
